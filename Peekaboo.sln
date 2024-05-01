@@ -1,20 +1,109 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{BBEDB8D6-4561-015E-E9B8-ECA99D32203A}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BBEDB8D6-4561-015E-E9B8-ECA99D32203A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BBEDB8D6-4561-015E-E9B8-ECA99D32203A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BBEDB8D6-4561-015E-E9B8-ECA99D32203A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BBEDB8D6-4561-015E-E9B8-ECA99D32203A}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI; // UI 관여
+
+public class StartManager : MonoBehaviour
+{
+    //멤버변수
+    [Header("MemberShip")]
+    public GameObject MemberShipUI;
+    public Text M_ID_Text;
+    public Text M_Password_Text;
+    public Text M_Find_Text;
+
+    [Header("Login")]
+    public GameObject Login_UI;
+    public Text I_ID_Text;
+    public Text I_Password_Text;
+    public GameObject NotLogin_UI;
+    public Text NotLogin_Text;
+
+    [Header("Find")]
+    public GameObject Find_UI;
+    public Text FindText;
+    public GameObject Not_UI_Find;
+    public Text Not_Text;
+
+    public void MemberShipBtn()
+    {
+        PlayerPrefs.SetString("ID", M_ID_Text.text);
+        PlayerPrefs.SetString("Password", M_Password_Text.text);
+        PlayerPrefs.SetString("Find", M_Find_Text.text);
+        MemberShipUI.SetActive(false);
+    }
+
+    //로그인 버튼
+    public void LoginBtn()
+    {
+        if(PlayerPrefs.GetString("ID")!= I_ID_Text.text)
+        {
+            Login_UI.SetActive(false);
+            NotLogin_UI.SetActive(true);
+            NotLogin_Text.text = "아이디가 일치하지 않습니다.";
+        }
+
+		if (PlayerPrefs.GetString("Password") != I_Password_Text.text)
+		{
+			Login_UI.SetActive(false);
+			NotLogin_UI.SetActive(true);
+			NotLogin_Text.text = "비밀번호가 일치하지 않습니다.";
+		}
+
+        if(PlayerPrefs.GetString("ID") != I_ID_Text.text &&
+			PlayerPrefs.GetString("Password") != I_Password_Text.text)
+        {
+            Login_UI.SetActive(false);
+            NotLogin_UI.SetActive(true);
+            NotLogin_Text.text = "아이디와 비밀번호가 일치 하지 않습니다.";
+        }
+
+		if (PlayerPrefs.GetString("ID") == I_ID_Text.text &&
+			PlayerPrefs.GetString("Password") == I_Password_Text.text)
+		{
+
+		}
+
+        Invoke("NotLogin_Exit", 3f);
+	}
+
+    public void FindBtn()
+    {
+        Find_UI.SetActive(false);
+
+        Not_UI_Find.SetActive(true);
+
+        if(PlayerPrefs.GetString("Find")==FindText.text)
+        {
+            Not_Text.text = "ID: " + PlayerPrefs.GetString("ID") + "\n" + "Password: "
+                + PlayerPrefs.GetString("Password");
+        }
+        else
+        {
+            Not_Text.text = "잘못된 힌트입니다.";
+        }
+
+        Invoke("Not_UI_Exit", 3f);
+    }
+
+    private void Not_UI_Exit()
+    {
+        Not_UI_Find.SetActive(false);
+    }
+    private void NotLogin_Exit()
+    {
+        NotLogin_UI.SetActive(false);
+    }
+
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+	}
+}
