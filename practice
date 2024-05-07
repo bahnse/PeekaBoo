@@ -1,1 +1,124 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI; // UI 관여
+
+public class StartManager : MonoBehaviour
+{
+    // 접근제한 지정자
+    // 1. public -> 외부공개
+    // 2. private -> 내부에만 공개
+    // 3. protected -> 자식에게만 공개
+
+    // 접근제한지정자, 자료형, 식별자, ;
+
+    [Header("Membership")]
+    public GameObject Membership_UI;
+    public Text M_ID_Text; // 아이디를 입력하는 텍스트
+    public Text M_Password_Text; // 비밀번호를 입력하는 텍스트
+    public Text M_Find_Text; // 힌트를 입력하는 텍스트
+
+
+    [Header("Login")]
+    public GameObject Login_UI;
+    public Text I_ID_Text; // 로그인 아이디
+    public Text I_Password_Text;  // 로그인 비밀번호
+    public GameObject NotLogin_UI; // 로그인 실패
+    public Text NotLogin_Text; // 로그인 실패
+
+    [Header("Find")]
+    public GameObject Find_UI;
+    public Text FindText;
+    public GameObject NotFind_UI;
+    public Text NotText;
+
+
+    // 접근제한지정자 반환형 식별자 (인자값)
+    // 특정 경로에 정보를 저장한다.
+    // PlayerPrefs
+    // 1. string -> 문자열
+    // 2. int -> 정수형 숫자
+    // 3. float -> 실수
+    public void MemberShipBtn()
+    {
+        PlayerPrefs.SetString("ID", M_ID_Text.text);
+        PlayerPrefs.SetString("Password", M_Password_Text.text);
+        PlayerPrefs.SetString("Hint", M_Find_Text.text);
+
+        // 회원가입 UI 비활성화
+        Membership_UI.SetActive(false);
+    }
+
+    public void LoginBtn()
+    {
+        if(PlayerPrefs.GetString("ID") != I_ID_Text.text)
+        {
+            Login_UI.SetActive(false);
+            NotLogin_UI.SetActive(true);
+            NotLogin_Text.text = "아이디가 일치하지 않습니다.";
+        }
+        if (PlayerPrefs.GetString("Password") != I_Password_Text.text)
+        {
+            Login_UI.SetActive(false);
+            NotLogin_UI.SetActive(true);
+            NotLogin_Text.text = "비밀번호가 일치하지 않습니다.";
+        }
+        if (PlayerPrefs.GetString("ID") != I_ID_Text.text && PlayerPrefs.GetString("Password") != I_Password_Text.text)
+        {
+            Login_UI.SetActive(false);
+            NotLogin_UI.SetActive(true);
+            NotLogin_Text.text = "아이디와 비밀번호가 일치하지 않습니다.";
+        }
+        if (PlayerPrefs.GetString("ID") == I_ID_Text.text && PlayerPrefs.GetString("Password") == I_Password_Text.text)
+        {
+            // 캐릭터 선택창으로 이동
+        }
+
+        Invoke("NotLogin_Exit", 3f);
+    }
+
+    private void NotLogin_Exit()
+    {
+        NotLogin_UI.SetActive(false);
+    }
+
+    public void FindBtn()
+    {
+        Find_UI.SetActive(false);
+        NotFind_UI.SetActive(true); 
+
+        if (PlayerPrefs.GetString("Hint") == FindText.text)
+        {
+            NotText.text = "ID: " + PlayerPrefs.GetString("ID") + "\n"
+                + "Password: " + PlayerPrefs.GetString("Password") + "\n";
+        }
+        else
+        {
+            NotText.text = "잘못된 힌트입니다.";
+        }
+
+        Invoke("NotFind_Exit", 3f);
+    }
+
+    private void NotFind_Exit()
+    {
+        NotFind_UI.SetActive(false);
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+
+    }
+}
 
