@@ -1,1 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
 
+
+// 1. 캐릭터의 정보를 보여준다.
+// 2. 캐릭터 선택 후 메인화면으로 넘어간다.
+public class SelectManger : MonoBehaviour
+{
+
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
