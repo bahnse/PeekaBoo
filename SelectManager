@@ -1,0 +1,117 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement; // Scene을 로드하기 위해
+
+
+// 1. 캐릭터의 정보를 보여준다.
+// 2. 캐릭터 선택 후 메인화면으로 넘어간다.
+public class SelectManger : MonoBehaviour
+{
+    // static을 선언하면 씬을 넘어가게 되도 그 값이 그대로 저장되어 있다.
+    public static string CharacterName;
+
+    [Header("Information")]
+    public Text CharacterName_Text;
+    public Text Character_Ch;
+    public Image Character_Image; // 캐릭터 이미지
+    private int CharacterCount = 0;
+
+    // 배열
+    // 하나의 자료형을 여러 개 관리할 때 유용한 용법
+    [Header("Character")]
+    public GameObject[] Characters;
+
+    [Header("GameStartUI")]
+    public GameObject GameStartUI;
+    public Text GameCountText;
+    private bool IsStart = false; // 시작버튼을 눌렀는지 구분
+    private float GameCount = 5f; // 5초
+
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        CharacterName_Text.text = "전사";
+        Character_Ch.text = "근접 공격이 가능하며 \n 강력한 공격을 가진다.";
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Character_Image.sprite =
+            Characters[CharacterCount].GetComponent<SpriteRenderer>().sprite;
+
+        if (IsStart)
+        {
+            GameCount -= Time.deltaTime;
+            GameCountText.text = "곧 게임이 시작됩니다. \n" +
+                GameCount.ToString("F1"); // 소수점 첫째자리까지
+        }
+
+        if (GameCount <= 0)
+        {
+            SceneManager.LoadScene("Main");
+        }
+    }
+
+    public void SelectBtn()
+    {
+        GameStartUI.SetActive(true);
+        IsStart = true;
+
+        // 내가 선택했던 캐릭터를 알려준다
+        CharacterName = Characters[CharacterCount].name;
+    }
+
+    // 들어오는 인자값에 따라서 값을 다르게 준다
+    public void CharacterBtn(string BtnName)
+    {
+        if (BtnName == "Next")
+        {
+            if (CharacterCount < Characters.Length - 1)
+            {
+                Characters[CharacterCount].SetActive(false);
+
+                CharacterCount++;
+                Characters[CharacterCount].SetActive(true);
+            }
+
+        }
+
+        if (BtnName == "Prev")
+        {
+            if (CharacterCount > 0)
+            {
+                Characters[CharacterCount].SetActive(false);
+
+                CharacterCount--;
+                Characters[CharacterCount].SetActive(true);
+            }
+
+        }
+
+        // CharacterCount에 따라 나타나는 캐릭터가 다르다.
+        if (CharacterCount == 0)
+        {
+            CharacterName_Text.text = "전사";
+            Character_Ch.text = "근접 공격이 가능하며 \n 강력한 공격을 가진다.";
+        }
+
+        else if (CharacterCount == 1)
+        {
+            CharacterName_Text.text = "궁수";
+            Character_Ch.text = "원거리 공격이 탁월하며 \n 빠른 공격을 가진다.";
+        }
+
+        else if (CharacterCount == 2)
+        {
+            CharacterName_Text.text = "마법사";
+            Character_Ch.text = "다양한 스킬을 가지고 있으며 \n 강력한 마법 공격을 가진다.";
+        }
+
+    }
+ } 
