@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-123456
+1234567
 public class StartManager : MonoBehaviour
 {
     //멤버변수
