@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public class StartManager : MonoBehaviour
+1
 {
     //멤버변수
     [Header("MemberShip")]
