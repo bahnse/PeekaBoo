@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-12345678
 public class StartManager : MonoBehaviour
 {
     //멤버변수
