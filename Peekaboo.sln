@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-1
+12
 public class StartManager : MonoBehaviour
 {
     //멤버변수
